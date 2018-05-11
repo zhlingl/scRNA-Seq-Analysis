@@ -47,7 +47,7 @@ paste reads_zy.txt reads_early2cell.txt reads_mid2cell.txt reads_late2cell.txt r
 sed -i '1d' deng.txt #删除第一行
 head -n 1 deng.txt |awk '{print NF;}' 
 268  
-#共268个细胞系
+#共268个细胞系，排除掉liver等
 
 cd data
 for i in `ls GSM111*_zy*`; do  echo -e "$i\t\c" >> ../filename.txt ;  done;
