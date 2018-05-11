@@ -1,0 +1,18 @@
+#modified from https://gist.github.com/brentp/1178762
+#wget ftp://ftp.ensembl.org/pub/release-92/gtf/mus_musculus/Mus_musculus.GRCm38.92.chr.gtf.gz
+
+# assumes gene_name and gene_id will always be in the same column in the attributes and that there
+# are no spaces in the gene names. 
+# the output contains 7 columns, the gene_biotype is in the last column
+LC_ALL=C
+dir=/data1/zll/project/deepBase3/genome/mm10/
+gtf=$1
+input=$dir$gtf
+output=$input.${gtf/gtf/bed}
+#/data1/zll/project/deepBase3/genome/mm10/Mus_musculus.GRCm38.92.chr.gtf
+awk 'BEGIN {OFS="\t"}
+    ($9 == "gene_id" && $13 == "gene_name" && $17 == "gene_biotype" ){
+        gsub(/";?/,""); print "chr"$1,$4,$5,$10,$14,$7,$18 
+    }' $input | sort -k 1,1 -k2,2n | \
+groupBy  -g 1,4 -c 2,3 -o min,max -full | \
+awk 'BEGIN {OFS="\t"}{ print $1,$8,$9,$4,$5,$6,$7 }' > $output
