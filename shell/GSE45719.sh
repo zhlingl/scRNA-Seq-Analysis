@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# modified from https://github.com/hemberg-lab/scRNA.seq.datasets/blob/master/bash/deng.sh
 # download data
 wget -O data.tar \
 'http://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE45719&format=file'
